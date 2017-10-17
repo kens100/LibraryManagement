@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="sipei">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css ' %}"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-button.css' %}"/>
+    <title>菜单页面</title>
+    --
+    <style type="text/css">
+        body {
+            background: url({% static 'img/background.jpg'%}) no-repeat;
+
+        }
+
+        .menuTitle {
+            font: "微软雅黑";
+            font-size: 60px;
+            color: #333333;
+        }
+
+        .menuItem {
+            width: 100%;
+            height: 70px;
+            max-width: 320px;
+            font: "微软雅黑";
+            font-size: 50px;
+
+        }
+
+        .menuMargin {
+            margin-top: 100px;
+            margin-bottom: 30px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header ">
+
+                <h1 class="text-center"><strong>前台页面</strong></h1>
+                <button type="button" id="goManageBtn" class="btn btn-default btn-lg">
+                    后台<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="text-center menuMargin">
+                <button type="button" id="OutStoreBtn" class="button button-3d button-jumbo button-pill menuItem">
+                    快速出库
+                </button>
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="text-center menuMargin">
+                <button type="button" id="EnStoreBtn" class="button button-3d button-primary button-pill menuItem">
+                    快速入库
+                </button>
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="text-center menuMargin">
+                <button type="button" id="checkBtn"
+                        class="button button-3d button-action button-pill menuItem">检查库存
+                </button>
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="text-center menuMargin">
+                <button type="button" id="logoutBtn" class="button button-3d button-caution button-pill menuItem">退出系统
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript" src="{% static 'js/jquery-3.2.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        setInterval(function(){
+                $.ajax({
+                    type: 'get',
+                    url:"/product/getWarning"
+                });
+            },100000);
+
+        $('#OutStoreBtn').click(function () {
+            window.location.href = '/outStore/';
+        });
+
+        $('#goManageBtn').click(function () {
+            window.location.href = '/manage/';
+        });
+
+        $('#EnStoreBtn').click(function () {
+            window.location.href = '/enStore/';
+        });
+        $('#checkBtn').click(function () {
+            window.location.href = '/product/list';
+{#            $.ajax({#}
+{#                type: 'get',#}
+{#                url: '/product/list',#}
+{#                dataType: "json",#}
+{#                success: function (data) {#}
+{#                    if (data.status == 'warning') {#}
+{#                        alert(data.total+'种商品库存低于最低库存，请马上去后台处理')#}
+{#                    }else if(data.status == 'nothing'){#}
+{#                        alert('没有低于最小库存的商品')#}
+{#                    }#}
+{#                }#}
+{##}
+{#            });#}
+        });
+
+        $('#logoutBtn').click(function () {
+
+            $.ajax({
+                type: 'get',
+                url: '/logout/',
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == 'out') {
+                        window.location.href = '/login';
+                    }
+                }
+
+            });
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+@media only screen and (min-width: 980px) {
+	a,
+	button,
+	input[type=submit],
+	input[type=button],
+	.product-img {
+		-webkit-transition: .5s;
+		-moz-transition: .5s;
+		-ms-transition: .5s;
+		-o-transition: .5s;
+		transition: .5s;
+	}
+	.ch-container {
+		padding: 0 20px;
+	}
+}
+
+body {
+	background: url(../img/background.jpg) no-repeat
+}
+
+.main {
+	margin-top: 90px;
+}
+
+a {
+	color: #02A5DE;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+}
+
+a:hover,
+a:active {
+	color: #FF4136;
+	display: block;
+	text-decoration: none;
+}
+
+div.center,
+p.center,
+img.center {
+	margin-left: auto !important;
+	margin-right: auto !important;
+	float: none !important;
+	display: block;
+	text-align: center;
+}
+
+.login-header {
+	padding-top: 30px;
+	height: 120px;
+}
+
+.login-box .input-prepend {
+	margin-bottom: 10px;
+}
+
+.registerBtn,
+.loginBtn,
+.forgetBtn {
+	height: 40px;
+	width: 120px;
+	margin-top: 20px;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+.forgotPass {
+	padding-right: 10px;
+}
+
+.header {
+	font: "微软雅黑";
+	color: #449D44;
+}
+
+.confirmReg {
+	width: 130px;
+	margin-top: 20px;
+	background: #5CB85C;
+}
+
+label {
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	padding-left: 25px;
+	margin-right: 15px;
+	font-size: 25px;
+}

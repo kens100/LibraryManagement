@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="sipei">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-button.css' %}"/>
+    <title>入库页面</title>
+    --
+    <style type="text/css">
+        body {
+            background: url({% static 'img/background.jpg'%}) no-repeat;
+
+        }
+
+        .menuItem {
+            width: 100%;
+            height: 70px;
+            max-width: 400px;
+            font: "微软雅黑";
+            font-size: 40px;
+
+        }
+
+        .menuMargin {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .moneyInputText {
+            width: 55%;
+            height: 100px;
+            font-size: 45px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header ">
+                <button type="button" id="goBackBtn" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回
+                </button>
+                <h1 class="text-center"><strong>入库页面</strong></h1>
+                <div style="text-align: right">
+                    <button type="button" id="goProductManageBtn" class="btn btn-default btn-lg">
+                        详细操作<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <form id="enStoreForm" method="post" action="">
+            <div class="col-xs-12 ">
+                <div class="text-center menuMargin">
+                    <input type="text" name="supplier" class="moneyInputText text-center" id="supplier"
+                           placeholder="供应商"/>
+                </div>
+
+            </div>
+            <div class="col-xs-12 ">
+                <div class="text-center menuMargin">
+                    <input type="text" name="product" class="moneyInputText text-center" id="product" placeholder="产品"/>
+                </div>
+
+            </div>
+            <div class="col-xs-12 ">
+                <div class="text-center menuMargin">
+                    <input type="text" name="count" class="moneyInputText text-center" id="count" placeholder="数量"/>
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 ">
+                <div class="text-center menuMargin">
+                    <button type="button" id="enStoreBtn" class="button button-3d button-primary button-pill menuItem">
+                        立刻入库
+                    </button>
+                </div>
+
+            </div>
+            {% csrf_token %}
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript" src="{% static 'js/jquery-3.2.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        setInterval(function () {
+            $.ajax({
+                type: 'get',
+                url: "/product/getWarning"
+            });
+        }, 100000);
+
+        $('#goBackBtn').click(function () {
+            window.location.href = '/';
+        });
+
+         $('#goProductManageBtn').click(function () {
+            window.location.href = '/manage/product/product/';
+        });
+
+        $('#enStoreBtn').click(function () {
+
+            $.ajax({
+                type: 'POST',
+                url: '/enStore/',
+                data: $('#enStoreForm').serialize(),
+                async: true,
+
+                success: function (data) {
+                    if (data.status == 'success') {
+                        alert(data.msg)
+                    } else if (data.status == 'fail') {
+                        alert(data.msg)
+                    }
+                },
+
+            });
+        });
+
+    });
+</script>
+</body>
+</html>
