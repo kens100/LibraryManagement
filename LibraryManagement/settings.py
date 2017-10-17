@@ -86,7 +86,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'storeSys.wsgi.application'
+WSGI_APPLICATION = 'LibraryManagement.wsgi.application'
 
 
 # Database
