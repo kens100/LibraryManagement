@@ -6,7 +6,6 @@ from datetime import datetime
 
 from book.models import Book
 from press.models import Press
-from customer.models import Customer
 from users.models import UserProfile
 
 

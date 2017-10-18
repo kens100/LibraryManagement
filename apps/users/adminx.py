@@ -12,8 +12,8 @@ class BaseSetting(object):
 
 
 class GlobalSettings(object):
-    site_title = '库存管理系统'
-    site_footer = '物业公司'
+    site_title = '图书馆管理系统'
+    site_footer = '图书馆'
     menu_style = 'accordion'
 
 

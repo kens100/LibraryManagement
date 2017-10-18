@@ -6,12 +6,12 @@ from .models import Book
 
 
 class BookAdmin(object):
-    list_display = ['name', 'writer', 'press', 'price', 'max_count'
-        , 'now_count', 'add_time']
-    search_fields = ['name', 'writer', 'press', 'price', 'max_count'
-        , 'now_count']
-    list_filter = ['name', 'writer', 'press', 'price', 'max_count'
-        , 'now_count', 'add_time']
+    list_display = ['name', 'writer', 'press', 'price', 'max_amount'
+        , 'borrow_amount', 'add_time']
+    search_fields = ['name', 'writer', 'press', 'price', 'max_amount'
+        , 'borrow_amount']
+    list_filter = ['name', 'writer', 'press', 'price', 'max_amount'
+        , 'borrow_amount', 'add_time']
 
     refresh_times = (3, 5)
 
