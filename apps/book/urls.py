@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-# __author__ = 'qingqinglei'
-# __date__ = '2017/6/12 21:24'
-
 from django.conf.urls import url
 
 from .views import GetWarningView,CheckView

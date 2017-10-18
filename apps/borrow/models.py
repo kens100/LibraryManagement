@@ -8,13 +8,13 @@ from book.models import Book
 from proof.models import Proof
 
 # Create your models here.
-class EnStore(models.Model):
-    product = models.ForeignKey(Book, verbose_name=u"书籍")
+class Borrow(models.Model):
+    book = models.ForeignKey(Book, verbose_name=u"书籍")
     proof = models.ForeignKey(Proof, verbose_name=u"借阅者")
     borrow_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
 
     class Meta:
-        verbose_name = u"入库记录"
+        verbose_name = u"借阅记录"
         verbose_name_plural = verbose_name
 
     def __unicode__(self):

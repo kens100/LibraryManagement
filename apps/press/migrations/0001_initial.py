@@ -15,18 +15,18 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Supplier',
+            name='Press',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, verbose_name='\u4f9b\u5e94\u5546\u540d\u79f0')),
+                ('name', models.CharField(max_length=50, verbose_name='\u51fa\u7248\u793e\u540d\u79f0')),
                 ('phone', models.CharField(blank=True, max_length=15, null=True, verbose_name='\u8054\u7cfb\u7535\u8bdd')),
-                ('address', models.CharField(max_length=100, verbose_name='\u4f9b\u5e94\u5546\u5730\u5740')),
+                ('address', models.CharField(max_length=100, verbose_name='\u51fa\u7248\u793e\u5730\u5740')),
                 ('contact', models.CharField(max_length=20, verbose_name='\u8054\u7cfb\u4eba')),
                 ('add_time', models.DateTimeField(default=datetime.datetime.now, verbose_name='\u6dfb\u52a0\u65f6\u95f4')),
             ],
             options={
-                'verbose_name': '\u4f9b\u5e94\u5546',
-                'verbose_name_plural': '\u4f9b\u5e94\u5546',
+                'verbose_name': '\u51fa\u7248\u793e',
+                'verbose_name_plural': '\u51fa\u7248\u793e',
             },
         ),
     ]

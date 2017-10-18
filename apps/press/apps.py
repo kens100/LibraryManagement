@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class ProductConfig(AppConfig):
-    name = 'product'
-    verbose_name = u"产品信息"
-
+class PressConfig(AppConfig):
+    name = 'press'
+    verbose_name = u"出版社信息"

@@ -45,11 +45,11 @@ INSTALLED_APPS = [
     'users',
     'customer',
     'supplier',
-    'product',
     'operation',
     'book',
     'proof',
     'borrow',
+    'press',
     'xadmin',
     'crispy_forms',
 ]
