@@ -33,23 +33,27 @@ class CheckView(View):
             return render(request, "login.html")
         all_books = Book.objects.all()
         rows = []
-        for product in all_books:
-            if product.min_count >= product.count:
-                rows.append(product)
+        for book in all_books:
+            if book.min_count >= book.count:
+                rows.append(book)
         total = rows.__len__()
 
         sort = request.GET.get('sort', "")
         if sort:
-            if sort == "supplier":
-                all_books = all_books.order_by("-supplier")
-            elif sort == "name":
+            if sort == "name":
                 all_books = all_books.order_by("-name")
+            elif sort == "writer":
+                all_books = all_books.order_by("-writer")
+            elif sort == "press":
+                all_books = all_books.order_by("-press")
             elif sort == "price":
                 all_books = all_books.order_by("-price")
+            elif sort == "max_amount":
+                all_books = all_books.order_by("-max_amount")
             elif sort == "add_time":
                 all_books = all_books.order_by("-add_time")
-        return render(request, "product_list.html", {
-            "all_products": all_books,
+        return render(request, "book_list.html", {
+            "all_books": all_books,
             "sort": sort,
             "total": total,
         })
@@ -68,15 +72,15 @@ class EnStoreView(View):
     def post(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
-        product = request.POST.get("product", "")
-        supplier = request.POST.get("supplier", "")
+        book = request.POST.get("book", "")
+        press = request.POST.get("press", "")
         count = request.POST.get("count", 0)
-        target_press = Press.objects.filter(name=supplier)
+        target_press = Press.objects.filter(name=press)
         if not target_press:
             return HttpResponse('{"status":"fail","msg":"入库失败，不存在该出版社"}', content_type='application/json')
         target_press = target_press[0]
-        supplier_id = target_press.id
-        oldBook = Book.objects.filter(name=product, supplier=supplier_id)
+        press_id = target_press.id
+        oldBook = Book.objects.filter(name=book, press=press_id)
         if not oldBook:
             return HttpResponse('{"status":"fail","msg":"入库失败，请先添加该书籍，再入库"}', content_type='application/json')
         # oldBook = oldBook[0]
@@ -88,7 +92,7 @@ class EnStoreView(View):
         enStoreRecord.count = int(count)
         enStoreRecord.manager = request.user
         enStoreRecord.book = oldBook
-        enStoreRecord.supplier = target_press
+        enStoreRecord.press = target_press
         enStoreRecord.save()
         return HttpResponse('{"status":"success","msg":"入库成功"}', content_type='application/json')
 
@@ -102,15 +106,15 @@ class OutStoreView(View):
     def post(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
-        product = request.POST.get("product", "")
-        supplier = request.POST.get("supplier", "")
+        book = request.POST.get("book", "")
+        press = request.POST.get("press", "")
         count = request.POST.get("count", 0)
-        target_press = Press.objects.filter(name=supplier)
+        target_press = Press.objects.filter(name=press)
         if not target_press:
             return HttpResponse('{"status":"fail","msg":"出库失败，不存在该出版社"}', content_type='application/json')
         target_press = target_press[0]
-        supplier_id = target_press.id
-        oldBook = Book.objects.filter(name=product, supplier=supplier_id)
+        press_id = target_press.id
+        oldBook = Book.objects.filter(name=book, press=press_id)
         if not oldBook:
             return HttpResponse('{"status":"fail","msg":"出库失败，仓库没有该书籍"}', content_type='application/json')
         oldBook = oldBook[0]
