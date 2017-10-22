@@ -20,7 +20,7 @@ from LibraryManagement.settings import STATIC_ROOT
 import xadmin
 
 from users.views import LoginView,IndexView,LogoutView,ForgetPassWordView,SendEmailCodeView
-from book.views import OutStoreView,EnStoreView, CheckView
+from book.views import OutStoreView,EnStoreView, CheckView, OnBorrowView, OnReturnView
 
 urlpatterns = [
     url('^$', IndexView.as_view(), name='index'),
@@ -31,6 +31,8 @@ urlpatterns = [
     url('^getEmail/$', SendEmailCodeView.as_view(), name='getEmail'),
     url('^outStore/$', OutStoreView.as_view(), name='outStore'),
     url('^enStore/$', EnStoreView.as_view(), name='enStore'),
+    url('^onBorrow/$', OnBorrowView.as_view(), name='onBorrow'),
+    url('^onReturn/$', OnReturnView.as_view(), name='onReturn'),
     url(r'^book/', include('book.urls', namespace="book")),
     url(r'^static/(?P<path>.*)$', serve, {"document_root": STATIC_ROOT}),
 ]

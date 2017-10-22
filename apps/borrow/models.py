@@ -7,11 +7,13 @@ from datetime import datetime
 from book.models import Book
 from proof.models import Proof
 
+
 # Create your models here.
 class Borrow(models.Model):
     book = models.ForeignKey(Book, verbose_name=u"书籍")
     proof = models.ForeignKey(Proof, verbose_name=u"借阅者")
-    borrow_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
+    borrow_time = models.DateTimeField(default=datetime.now, verbose_name=u"借阅时间")
+    return_time = models.DateTimeField(default=0, verbose_name=u"还书时间")
 
     class Meta:
         verbose_name = u"借阅记录"
