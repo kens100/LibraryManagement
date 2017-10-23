@@ -50,7 +50,7 @@
                 </button>
                 <h1 class="text-center"><strong>出库页面</strong></h1>
                 <div style="text-align: right">
-                    <button type="button" id="goProductManageBtn" class="btn btn-default btn-lg">
+                    <button type="button" id="goBookManageBtn" class="btn btn-default btn-lg">
                         详细操作<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -62,14 +62,14 @@
 
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <input type="text" name="supplier" class="moneyInputText text-center" id="supplier"
-                           placeholder="供应商"/>
+                    <input type="text" name="press" class="moneyInputText text-center" id="press"
+                           placeholder="出版社"/>
                 </div>
             </div>
 
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <input type="text" name="product" class="moneyInputText text-center" id="product" placeholder="产品"/>
+                    <input type="text" name="book" class="moneyInputText text-center" id="book" placeholder="书籍"/>
                 </div>
             </div>
 
@@ -108,7 +108,7 @@
         setInterval(function () {
             $.ajax({
                 type: 'get',
-                url: "/product/getWarning"
+                url: "/book/getWarning"
             });
         }, 100000);
 
@@ -117,8 +117,8 @@
             window.location.href = '/';
         });
 
-        $('#goProductManageBtn').click(function () {
-            window.location.href = '/manage/product/product/';
+        $('#goBookManageBtn').click(function () {
+            window.location.href = '/manage/book/book/';
         });
 
         $('#outStoreBtn').click(function () {
