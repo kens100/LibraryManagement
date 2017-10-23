@@ -153,9 +153,9 @@ class EnStoreView(View):
         oldBook = Book.objects.filter(name=book, press=press_id)
         if not oldBook:
             return HttpResponse('{"status":"fail","msg":"入库失败，请先添加该书籍，再入库"}', content_type='application/json')
-        # oldBook = oldBook[0]
-        # if oldBook.max_count is not None and oldBook.max_count < (oldBook.count + int(count)):
-        #     return HttpResponse('{"status":"fail","msg":"入库失败，书籍库存大于该书籍允许的最大库存"}', content_type='application/json')
+        oldBook = oldBook[0]
+        if int(count) <= 0:
+            return HttpResponse('{"status":"fail","msg":"输入数字必须大于0"}', content_type='application/json')
         oldBook.max_amount = oldBook.max_amount + int(count)
         oldBook.save()
         enStoreRecord = EnStore()
