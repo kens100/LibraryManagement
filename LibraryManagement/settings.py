@@ -97,6 +97,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
@@ -152,4 +153,4 @@ EMAIL_FROM = "qingqinglei123@sina.com"
 
 
 
-STATIC_ROOT = 'E:/Python/LibraryManagement/extra_apps/xadmin/static'
+STATIC_ROOT = 'D:/gitHubFile/LibraryManagement/extra_apps/xadmin/static'
