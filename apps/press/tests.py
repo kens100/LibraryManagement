@@ -13,8 +13,3 @@ class AddPressViewTestCase(TestCase):
                              address=u'Address Test', contact=u'Contact Test')
         self.test_login_all_right()
 
-    def test_login_all_right(self):
-        response = self.client.post('/login/', {'username': 'anna', 'password': 'anna1234'})
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "success")
-
