@@ -17,3 +17,15 @@ class AddPressViewTestCase(TestCase):
         response = self.client.post('/login/', {'username': 'anna', 'password': 'anna1234'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "success")
+
+    def test_add_press_all_right(self):
+        response = self.client.post('/addPress/', {'press': u'Press Test', 'phone': u'1234567890',
+                                                   'address': u'Address Test', 'contact': u'Contact Test'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "success")
+
+    def test_add_press_no_phone(self):
+        response = self.client.post('/addPress/', {'press': u'Press Test',
+                                                   'address': u'Address Test', 'contact': u'Contact Test'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "success")
