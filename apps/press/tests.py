@@ -5,6 +5,7 @@ from django.test import Client
 from users.models import UserProfile
 from press.models import Press
 
+
 # Create your tests here.
 class AddPressViewTestCase(TestCase):
     def setUp(self):
@@ -36,3 +37,24 @@ class AddPressViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "fail")
         self.assertContains(response, "添加失败，请输入出版社名称")
+
+    def test_add_press_press_wrong(self):
+        response = self.client.post('/addPress/', {'press': u'Press Test1', 'phone': u'1234567890',
+                                                   'address': u'Address Test', 'contact': u'Contact Test'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "fail")
+        self.assertContains(response, "添加失败，已存在该出版社")
+
+    def test_add_press_no_address(self):
+        response = self.client.post('/addPress/', {'press': u'Press Test', 'phone': u'1234567890',
+                                                   'contact': u'Contact Test'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "fail")
+        self.assertContains(response, "添加失败，请输入出版社地址")
+
+    def test_add_press_no_contact(self):
+        response = self.client.post('/addPress/', {'press': u'Press Test', 'phone': u'1234567890',
+                                                   'address': u'Address Test'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "fail")
+        self.assertContains(response, "添加失败，请输入联系人")
