@@ -8,6 +8,6 @@ urlpatterns = [
 
     url(r'getWarning',GetWarningView.as_view()),
 
-    url(r'list', CheckView.as_view(), name="product_list"),
+    url(r'list', CheckView.as_view(), name="book_list"),
 
 ]
