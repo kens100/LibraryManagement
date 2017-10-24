@@ -24,8 +24,3 @@ class AddPressViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "success")
 
-    def test_add_press_no_phone(self):
-        response = self.client.post('/addPress/', {'press': u'Press Test',
-                                                   'address': u'Address Test', 'contact': u'Contact Test'})
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "success")
