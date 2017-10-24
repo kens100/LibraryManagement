@@ -50,7 +50,7 @@
                 </button>
                 <h1 class="text-center"><strong>借书页面</strong></h1>
                 <div style="text-align: right">
-                    <button type="button" id="goProductManageBtn" class="btn btn-default btn-lg">
+                    <button type="button" id="goBookManageBtn" class="btn btn-default btn-lg">
                         详细操作<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -59,6 +59,12 @@
     </div>
     <div class="row">
         <form action="" method="post" id="outForm">
+            <div class="col-xs-12 ">
+                <div class="text-center menuMargin">
+                    <input type="text" name="proof_id" class="moneyInputText text-center" id="proof_id" placeholder="借书卡ID"/>
+                </div>
+
+            </div>
 
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
@@ -69,8 +75,7 @@
 
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <input type="text" name="press" class="moneyInputText text-center" id="press"
-                           placeholder="出版社"/>
+                    <input type="text" name="book_id" class="moneyInputText text-center" id="book_id" placeholder="书籍ID"/>
                 </div>
             </div>
 
@@ -82,7 +87,14 @@
 
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <button type="button" id="outStoreBtn" class="button button-3d button-primary button-pill menuItem">
+                    <input type="text" name="press" class="moneyInputText text-center" id="press"
+                           placeholder="出版社"/>
+                </div>
+            </div>
+
+            <div class="col-xs-12 ">
+                <div class="text-center menuMargin">
+                    <button type="button" id="onBorrowBtn" class="button button-3d button-primary button-pill menuItem">
                         借阅
                     </button>
                 </div>
@@ -117,15 +129,29 @@
             window.location.href = '/';
         });
 
-        $('#goProductManageBtn').click(function () {
-            window.location.href = '/manage/product/product/';
+        $('#goBookManageBtn').click(function () {
+            window.location.href = '/manage/borrow/borrow/';
         });
 
-        $('#outStoreBtn').click(function () {
+        $('#proof_id').change(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/onBorrow/',
+                data:  {proof_id: this.value},
+
+                success: function (data) {
+                    if (data.proof != null){
+                        $('#proof').setVal(data.proof)
+                    }
+                }
+            })
+        })
+
+        $('#onBorrowBtn').click(function () {
 
             $.ajax({
                 type: 'POST',
-                url: '/outStore/',
+                url: '/onBorrow/',
                 data: $('#outForm').serialize(),
                 async: true,
 
