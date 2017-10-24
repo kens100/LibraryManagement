@@ -8,7 +8,7 @@
     <meta name="author" content="sipei">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/bootstrap-button.css' %}"/>
-    <title>商品列表</title>
+    <title>书籍列表</title>
     --
     <style type="text/css">
         body {
@@ -48,9 +48,9 @@
                 <button type="button" id="goBackBtn" class="btn btn-default btn-lg">
                     <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回
                 </button>
-                <h1 class="text-center"><strong>商品列表</strong></h1>
+                <h1 class="text-center"><strong>书籍列表</strong></h1>
                 <div style="text-align: right">
-                    <button type="button" id="goProductManageBtn" class="btn btn-default btn-lg">
+                    <button type="button" id="goBookManageBtn" class="btn btn-default btn-lg">
                         详细操作<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -62,34 +62,40 @@
         <button type="button" class="{% ifequal sort '' %}btn btn-success
 {% else %}btn btn-default{% endifequal %}" onclick=sortBtn(0)>常规
         </button>
-        <button type="button" class="{% ifequal sort 'supplier' %}btn btn-success
-{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(1)>供应商&#8595;</button>
         <button type="button" class="{% ifequal sort 'name' %}btn btn-success
-{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(2)>商品名称&#8595;</button>
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(1)>书籍名称&#8595;</button>
+        <button type="button" class="{% ifequal sort 'writer' %}btn btn-success
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(2)>作者&#8595;</button>
+        <button type="button" class="{% ifequal sort 'press' %}btn btn-success
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(3)>出版社&#8595;</button>
         <button type="button" class="{% ifequal sort 'price' %}btn btn-success
-{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(3)>商品价格&#8595;</button>
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(4)>书籍价格&#8595;</button>
+        <button type="button" class="{% ifequal sort 'max_amount' %}btn btn-success
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(5)>总书量&#8595;</button>
         <button type="button" class="{% ifequal sort 'add_time' %}btn btn-success
-{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(4)>添加时间&#8595;</button>
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(6)>添加时间&#8595;</button>
     </div>
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>供应商</th>
-            <th>商品名称</th>
-            <th>商品数量</th>
-            <th>商品单价</th>
+            <th>书籍名称</th>
+            <th>作者</th>
+            <th>出版社</th>
+            <th>书籍单价</th>
+            <th>总数量</th>
             <th>添加时间</th>
         </tr>
         </thead>
         <tbody>
-        {% for product in all_products %}
-            <tr id="product_{{ product.id }}"{% if product.count <= product.min_count %}
+        {% for book in all_books %}
+            <tr id="book_{{ book.id }}"{% if book.count <= book.min_count %}
                 class="warning" style="color: red" {% endif %}>
-                <td>{{ product.supplier }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.count }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.add_time }}</td>
+                <td>{{ book.name }}</td>
+                <td>{{ book.writer }}</td>
+                <td>{{ book.press }}</td>
+                <td>{{ book.price }}</td>
+                <td>{{ book.count }}</td>
+                <td>{{ book.add_time }}</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -103,26 +109,26 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        setInterval(function () {
-            $.ajax({
-                type: 'get',
-                url: "/product/getWarning"
-            });
-        }, 100000);
-
-        {% ifequal total 0 %}
-        {% else %}
-            {% if not sort %}
-                window.alert("有{{ total }}件货物库存不足，请及时补充");
-            {% endif %}
-        {% endifequal %}
+{#        setInterval(function () {#}
+{#            $.ajax({#}
+{#                type: 'get',#}
+{#                url: "/book/getWarning"#}
+{#            });#}
+{#        }, 100000);#}
+{##}
+{#        {% ifequal total 0 %}#}
+{#        {% else %}#}
+{#            {% if not sort %}#}
+{#                window.alert("有{{ total }}件货物库存不足，请及时补充");#}
+{#            {% endif %}#}
+{#        {% endifequal %}#}
 
         $('#goBackBtn').click(function () {
             window.location.href = '/';
         });
 
-        $('#goProductManageBtn').click(function () {
-            window.location.href = '/manage/product/product/';
+        $('#goBookManageBtn').click(function () {
+            window.location.href = '/manage/book/book/';
         });
 
     });
@@ -133,15 +139,21 @@
                 window.location.href = "?sort=";
                 break;
             case 1:
-                window.location.href = "?sort=supplier";
-                break;
-            case 2:
                 window.location.href = "?sort=name";
                 break;
+            case 2:
+                window.location.href = "?sort=writer";
+                break;
             case 3:
-                window.location.href = "?sort=price";
+                window.location.href = "?sort=press";
                 break;
             case 4:
+                window.location.href = "?sort=price";
+                break;
+            case 5:
+                window.location.href = "?sort=max_amount";
+                break;
+            case 6:
                 window.location.href = "?sort=add_time";
                 break;
             default:
