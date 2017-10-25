@@ -37,8 +37,7 @@ class CheckView(View):
         all_books = Book.objects.all()
         rows = []
         for book in all_books:
-            if book.min_count >= book.count:
-                rows.append(book)
+            rows.append(book)
         total = rows.__len__()
 
         sort = request.GET.get('sort', "")
@@ -87,9 +86,9 @@ class OutStoreView(View):
         if not oldBook:
             return HttpResponse('{"status":"fail","msg":"出库失败，仓库没有该书籍"}', content_type='application/json')
         oldBook = oldBook[0]
-        if (oldBook.max_amcount - oldBook.borrow_amount) < int(count):
+        if (oldBook.max_amount - oldBook.borrow_amount) < int(count):
             return HttpResponse('{"status":"fail","msg":"出库失败，书籍库存小于你要的取货量"}', content_type='application/json')
-        oldBook.max_amcount = oldBook.max_amcount - int(count)
+        oldBook.max_amount = oldBook.max_amount - int(count)
         oldBook.save()
         outStoreRecord = OutStore()
         outStoreRecord.count = int(count)
@@ -159,9 +158,8 @@ class OnBorrowView(View):
         if not oldBook:
             return HttpResponse('{"status":"fail","msg":"查询失败，仓库没有该书籍"}', content_type='application/json')
         oldBook = oldBook[0]
-        if (oldBook.max_amcount - oldBook.borrow_amount) < 1:
+        if (oldBook.max_amount - oldBook.borrow_amount) < 1:
             return HttpResponse('{"status":"fail","msg":"借阅失败，书籍库存小于你要的取货量"}', content_type='application/json')
-        oldBook.max_amcount = oldBook.max_amcount - 1
         oldBook.borrow_amount = oldBook.borrow_amount + 1
         oldBook.save()
         onBorrowRecord = Borrow()
@@ -203,15 +201,15 @@ class OnReturnView(View):
         if not borrow_record_list:
             return HttpResponse('{"status":"fail","msg":"查询失败，没有该借阅记录"}', content_type='application/json')
         for borrow_record in borrow_record_list:
-            if (0 != borrow_record.return_time):
+            if not borrow_record.return_time:
                 target_borrow = borrow_record
                 break
         if not target_borrow:
             return HttpResponse('{"status":"fail","msg":"查询失败，没有该借阅记录"}', content_type='application/json')
         if oldBook.borrow_amount < 1:
             return HttpResponse('{"status":"fail","msg":"还书失败，书籍库存小于你要的取货量"}', content_type='application/json')
+        target_borrow.return_time = datetime.now()
+        target_borrow.save()
         oldBook.borrow_amount = oldBook.borrow_amount - 1
         oldBook.save()
-        target_borrow.return_time = datetime.now
-        target_borrow.save()
         return HttpResponse('{"status":"success","msg":"还书成功"}', content_type='application/json')
