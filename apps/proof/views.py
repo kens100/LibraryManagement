@@ -4,6 +4,7 @@ from django.views.generic.base import View
 from django.http import HttpResponse
 
 from proof.models import Proof
+from borrow.models import Borrow
 # Create your views here.
 class AddProofView(View):
     def get(self, request):
@@ -36,3 +37,29 @@ class AddProofView(View):
         proof .phone = phone
         proof .save()
         return HttpResponse('{"status":"success","msg":"添加成功"}', content_type='application/json')
+
+
+class ProofBorrowView(View):
+    def get(self, request):
+        if not request.user.is_authenticated():
+            return render(request, "login.html")
+        proof_id = request.GET.get('id', "")
+        proof = Proof.objects.filter(id_number=proof_id)
+        if not proof:
+            return render(request, "proof_borrow_list.html", {
+                "proof_borrows": None,
+                "total": 0,
+            })
+        proof = proof[0]
+        proof_borrows = Borrow.objects.filter(proof=proof)
+        rows = []
+        for borrow in proof_borrows:
+            rows.append(borrow)
+        total = rows.__len__()
+
+        proof_borrows = proof_borrows.order_by("return_time")
+        return render(request, "proof_borrow_list.html", {
+            "proof": proof,
+            "proof_borrows": proof_borrows,
+            "total": total,
+        })

@@ -22,7 +22,7 @@ import xadmin
 from users.views import LoginView,IndexView,LogoutView,ForgetPassWordView,SendEmailCodeView
 from book.views import OutStoreView,EnStoreView, CheckView, OnBorrowView, OnReturnView
 from press.views import AddPressView
-from proof.views import AddProofView
+from proof.views import AddProofView, ProofBorrowView
 
 urlpatterns = [
     url('^$', IndexView.as_view(), name='index'),
@@ -38,6 +38,7 @@ urlpatterns = [
     url('^addPress/$', AddPressView.as_view(), name='addPress'),
     url('^addProof/$', AddProofView.as_view(), name='addProof'),
     url(r'^book/', include('book.urls', namespace="book")),
+    url(r'^proof/', include('proof.urls', namespace="proof")),
     url(r'^static/(?P<path>.*)$', serve, {"document_root": STATIC_ROOT}),
 ]
 

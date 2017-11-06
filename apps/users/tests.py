@@ -7,7 +7,7 @@ from users.models import UserProfile
 # Create your tests here.
 class LoginViewTestCase(TestCase):
     def setUp(self):
-        UserProfile.objects.create_user("anna", "anna1234@163.com", "anna1236")
+        UserProfile.objects.create_user("anna", "anna1234@163.com", "anna1234")
 
     def test_login_all_right(self):
         c = Client()
