@@ -69,11 +69,16 @@ class OutStoreView(View):
     def get(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
+        if not request.user.has_perm('add_outstore'):
+            return render(request, "403.html")
         return render(request, "outStore.html")
 
     def post(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
+        if not request.user.has_perm('add_outstore'):
+            return render(request, "403.html")
+
         book = request.POST.get("book", "")
         press = request.POST.get("press", "")
         count = request.POST.get("count", 0)
@@ -102,11 +107,16 @@ class EnStoreView(View):
     def get(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
+        if not request.user.has_perm('add_enstore'):
+            return render(request, "403.html")
         return render(request, "enStore.html")
 
     def post(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
+        if not request.user.has_perm('add_enstore'):
+            return render(request, "403.html")
+
         book = request.POST.get("book", "")
         press = request.POST.get("press", "")
         count = request.POST.get("count", 0)
@@ -136,11 +146,16 @@ class OnBorrowView(View):
     def get(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
+        if not request.user.has_perm('change_borrow'):
+            return render(request, "403.html")
         return render(request, "onBorrow.html")
 
     def post(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
+        if not request.user.has_perm('change_borrow'):
+            return render(request, "403.html")
+
         proof = request.POST.get("proof", "")
         book = request.POST.get("book", "")
         press = request.POST.get("press", "")
@@ -173,11 +188,16 @@ class OnReturnView(View):
     def get(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
+        if not request.user.has_perm('change_borrow'):
+            return render(request, "403.html")
         return render(request, "onReturn.html")
 
     def post(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
+        if not request.user.has_perm('change_borrow'):
+            return render(request, "403.html")
+
         proof = request.POST.get("proof", "")
         book = request.POST.get("book", "")
         press = request.POST.get("press", "")

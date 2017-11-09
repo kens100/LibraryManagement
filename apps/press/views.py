@@ -9,11 +9,16 @@ class AddPressView(View):
     def get(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
+        if not request.user.has_perm('add_press'):
+            return render(request, "403.html")
         return render(request, "addPress.html")
 
     def post(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
+        if not request.user.has_perm('add_press'):
+            return render(request, "403.html")
+
         name = request.POST.get("press", "")
         phone = request.POST.get("phone", "")
         address = request.POST.get("address", "")
