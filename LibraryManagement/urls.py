@@ -20,9 +20,9 @@ from LibraryManagement.settings import STATIC_ROOT
 import xadmin
 
 from users.views import LoginView,IndexView,LogoutView,ForgetPassWordView,SendEmailCodeView
-from book.views import OutStoreView,EnStoreView, CheckView, OnBorrowView, OnReturnView
+from book.views import OutStoreView,EnStoreView, CheckView, OnBorrowView, OnReturnView, GetBookView
 from press.views import AddPressView
-from proof.views import AddProofView, ProofBorrowView
+from proof.views import AddProofView, GetProofView
 
 urlpatterns = [
     url('^$', IndexView.as_view(), name='index'),
@@ -39,6 +39,8 @@ urlpatterns = [
     url('^addProof/$', AddProofView.as_view(), name='addProof'),
     url(r'^book/', include('book.urls', namespace="book")),
     url(r'^proof/', include('proof.urls', namespace="proof")),
+    url(r'^getBook/$', GetBookView.as_view(), name="getBook"),
+    url(r'^getProof/$', GetProofView.as_view(), name="getProof"),
     url(r'^static/(?P<path>.*)$', serve, {"document_root": STATIC_ROOT}),
 ]
 

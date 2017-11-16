@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.http import HttpResponse
+import json
 
 from proof.models import Proof
 from borrow.models import Borrow
@@ -68,3 +69,17 @@ class ProofBorrowView(View):
             "proof_borrows": proof_borrows,
             "total": total,
         })
+
+class GetProofView(View):
+    def post(self, request):
+        if not request.user.is_authenticated():
+            return
+        if not request.user.has_perm('change_borrow'):
+            return
+
+        proof_id = request.POST.get("proof_id", "")
+        target_proof = Proof.objects.filter(id_number=proof_id)
+        if target_proof:
+            target_proof = target_proof[0]
+            proof_info = {'proof_name': target_proof.name,}
+            return HttpResponse(json.dumps(proof_info), content_type='application/json')

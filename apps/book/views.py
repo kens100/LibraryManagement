@@ -233,3 +233,27 @@ class OnReturnView(View):
         oldBook.borrow_amount = oldBook.borrow_amount - 1
         oldBook.save()
         return HttpResponse('{"status":"success","msg":"还书成功"}', content_type='application/json')
+
+
+class GetBookView(View):
+    def post(self, request):
+        if not request.user.is_authenticated():
+            return
+        if not request.user.has_perm('change_borrow'):
+            return
+
+        book_id = request.POST.get("book_id", "")
+        target_book = Book.objects.filter(id=book_id)
+        if not target_book:
+            return
+
+        target_book = target_book[0]
+        target_press = target_book.press
+        if not target_press:
+            return
+
+        book_info = {
+            'book_name': target_book.name,
+            'book_press': target_press.name,
+        }
+        return HttpResponse(json.dumps(book_info), content_type='application/json')
