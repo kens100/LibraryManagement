@@ -2,10 +2,12 @@
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.http import HttpResponse
+from django.contrib.auth.models import Group
 import json
 
 from proof.models import Proof
 from borrow.models import Borrow
+from users.models import UserProfile
 # Create your views here.
 class AddProofView(View):
     def get(self, request):
@@ -24,7 +26,7 @@ class AddProofView(View):
         phone = request.POST.get("phone", "")
         if not id_number:
             return HttpResponse('{"status":"fail","msg":"添加失败，请输入ID号码"}', content_type='application/json')
-        target_proof = Proof.objects.filter(id_number=id_number)
+        target_proof = Proof.objects.filter(id=id_number)
         if target_proof:
             return HttpResponse('{"status":"fail","msg":"添加失败，已存在该ID号码"}', content_type='application/json')
         if not name:
@@ -34,11 +36,15 @@ class AddProofView(View):
         if not phone:
             return HttpResponse('{"status":"fail","msg":"添加失败，请输入联系电话"}', content_type='application/json')
         proof = Proof()
+        proof.id = id_number
         proof .name = name
         proof.address = address
-        proof.id_number = id_number
         proof .phone = phone
         proof .save()
+        new_user = UserProfile.objects.create_user(username=proof.id, password='l' + str(proof.id))
+        new_user.is_staff = True
+        new_user.groups.add(Group.objects.get(name='Visitor'))
+        new_user.save()
         return HttpResponse('{"status":"success","msg":"添加成功"}', content_type='application/json')
 
 
@@ -50,7 +56,7 @@ class ProofBorrowView(View):
             proof_id = request.user.username
         else:
             proof_id = request.GET.get('id', "")
-        proof = Proof.objects.filter(id_number=proof_id)
+        proof = Proof.objects.filter(id=proof_id)
         if not proof:
             return render(request, "proof_borrow_list.html", {
                 "proof_borrows": None,
@@ -78,7 +84,7 @@ class GetProofView(View):
             return
 
         proof_id = request.POST.get("proof_id", "")
-        target_proof = Proof.objects.filter(id_number=proof_id)
+        target_proof = Proof.objects.filter(id=proof_id)
         if target_proof:
             target_proof = target_proof[0]
             proof_info = {'proof_name': target_proof.name,}
