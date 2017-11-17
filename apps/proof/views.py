@@ -89,3 +89,33 @@ class GetProofView(View):
             target_proof = target_proof[0]
             proof_info = {'proof_name': target_proof.name,}
             return HttpResponse(json.dumps(proof_info), content_type='application/json')
+
+class ProofListView(View):
+    def get(self, request):
+        if not request.user.is_authenticated():
+            return render(request, "login.html")
+        all_proofs = Proof.objects.all()
+        rows = []
+        for proof in all_proofs:
+            rows.append(proof)
+        total = rows.__len__()
+
+        sort = request.GET.get('sort', "")
+        if sort:
+            if sort == "name":
+                all_proofs = all_proofs.order_by("-name")
+            elif sort == "sex":
+                all_proofs = all_proofs.order_by("-sex")
+            elif sort == "address":
+                all_proofs = all_proofs.order_by("-address")
+            elif sort == "phone":
+                all_proofs = all_proofs.order_by("-phone")
+            elif sort == "now_borrow_amount":
+                all_proofs = all_proofs.order_by("-now_borrow_amount")
+            elif sort == "add_time":
+                all_proofs = all_proofs.order_by("-add_time")
+        return render(request, "proof_list.html", {
+            "all_proofs": all_proofs,
+            "sort": sort,
+            "total": total,
+        })

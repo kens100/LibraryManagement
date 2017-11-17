@@ -30,7 +30,7 @@ class GetWarningView(View):
         return HttpResponse('{"status":"done"}', content_type='application/json')
 
 
-class CheckView(View):
+class BookListView(View):
     def get(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
