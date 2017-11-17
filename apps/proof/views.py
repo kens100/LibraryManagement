@@ -21,6 +21,7 @@ class AddProofView(View):
         if not request.user.is_authenticated():
             return render(request, "login.html")
         name = request.POST.get("proof", "")
+        sex = request.POST.get("sex", "")
         address = request.POST.get("address", "")
         id_number = request.POST.get("id_number", "")
         phone = request.POST.get("phone", "")
@@ -31,13 +32,16 @@ class AddProofView(View):
             return HttpResponse('{"status":"fail","msg":"添加失败，已存在该ID号码"}', content_type='application/json')
         if not name:
             return HttpResponse('{"status":"fail","msg":"添加失败，请输入借阅者名称"}', content_type='application/json')
+        if int(sex) < 1 or int(sex) > 2:
+            return HttpResponse('{"status":"fail","msg":"添加失败，性别选项错误"}', content_type='application/json')
         if not address:
             return HttpResponse('{"status":"fail","msg":"添加失败，请输入客户地址"}', content_type='application/json')
         if not phone:
             return HttpResponse('{"status":"fail","msg":"添加失败，请输入联系电话"}', content_type='application/json')
         proof = Proof()
         proof.id = id_number
-        proof .name = name
+        proof.name = name
+        proof.sex = sex
         proof.address = address
         proof .phone = phone
         proof .save()
