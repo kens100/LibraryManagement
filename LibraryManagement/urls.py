@@ -20,7 +20,7 @@ from LibraryManagement.settings import STATIC_ROOT
 import xadmin
 
 from users.views import LoginView,IndexView,LogoutView,ForgetPassWordView,SendEmailCodeView
-from book.views import OutStoreView,EnStoreView, CheckView, OnBorrowView, OnReturnView, GetBookView
+from book.views import OutStoreView,EnStoreView, OnBorrowView, OnReturnView, GetBookView
 from press.views import AddPressView
 from proof.views import AddProofView, GetProofView
 
