@@ -45,11 +45,15 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="page-header ">
-                <button type="button" id="goBackBtn" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回
-                </button>
                 <h1 class="text-center"><strong>书籍列表</strong></h1>
-                <div style="text-align: right">
+
+                <div align="left" style="float:left">
+                    <button type="button" id="goBackBtn" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回
+                    </button>
+                </div>
+
+                <div align="right">
                     <button type="button" id="goBookManageBtn" class="btn btn-default btn-lg">
                         详细操作<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                     </button>
@@ -75,26 +79,30 @@
         <button type="button" class="{% ifequal sort 'add_time' %}btn btn-success
 {% else %}btn btn-default{% endifequal %}" onclick=sortBtn(6)>添加时间&#8595;</button>
     </div>
-    <table class="table table-hover">
+    <table class="table table-hover" id="book_list_table">
         <thead>
         <tr>
+            <th>书籍ID</th>
             <th>书籍名称</th>
             <th>作者</th>
             <th>出版社</th>
             <th>书籍单价</th>
             <th>总数量</th>
+            <th>现存量</th>
             <th>添加时间</th>
         </tr>
         </thead>
         <tbody>
         {% for book in all_books %}
-            <tr id="book_{{ book.id }}"{% if book.count <= book.min_count %}
+            <tr id="book_{{ book.id }}"{% if book.max_amount == book.borrow_amount %}
                 class="warning" style="color: red" {% endif %}>
+                <td>{{ book.id }}</td>
                 <td>{{ book.name }}</td>
                 <td>{{ book.writer }}</td>
                 <td>{{ book.press }}</td>
                 <td>{{ book.price }}</td>
-                <td>{{ book.count }}</td>
+                <td>{{ book.max_amount }}</td>
+                <td>{{ book.borrow_amount }}</td>
                 <td>{{ book.add_time }}</td>
             </tr>
         {% endfor %}
@@ -109,19 +117,24 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-{#        setInterval(function () {#}
-{#            $.ajax({#}
-{#                type: 'get',#}
-{#                url: "/book/getWarning"#}
-{#            });#}
-{#        }, 100000);#}
-{##}
-{#        {% ifequal total 0 %}#}
-{#        {% else %}#}
-{#            {% if not sort %}#}
-{#                window.alert("有{{ total }}件货物库存不足，请及时补充");#}
-{#            {% endif %}#}
-{#        {% endifequal %}#}
+        {#        setInterval(function () {#}
+        {#            $.ajax({#}
+        {#                type: 'get',#}
+        {#                url: "/book/getWarning"#}
+        {#            });#}
+        {#        }, 100000);#}
+        {##}
+        {#        {% ifequal total 0 %}#}
+        {#        {% else %}#}
+        {#            {% if not sort %}#}
+        {#                window.alert("有{{ total }}件货物库存不足，请及时补充");#}
+        {#            {% endif %}#}
+        {#        {% endifequal %}#}
+
+        $('#book_list_table tr:gt(0)').each(function () {
+            var remain_amount = $(this).children('td:eq(5)').text() - $(this).children('td:eq(6)').text();
+            $(this).children('td:eq(6)').text(remain_amount);
+        });
 
         $('#goBackBtn').click(function () {
             window.location.href = '/';

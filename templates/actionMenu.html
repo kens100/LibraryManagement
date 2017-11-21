@@ -22,10 +22,19 @@
             color: #333333;
         }
 
-        .menuItem {
+        .menuItem2 {
             width: 100%;
             height: 70px;
             max-width: 320px;
+            font: "微软雅黑";
+            font-size: 50px;
+
+        }
+
+        .menuItem3 {
+            width: 100%;
+            height: 70px;
+            max-width: 330px;
             font: "微软雅黑";
             font-size: 50px;
 
@@ -47,40 +56,129 @@
             <div class="page-header ">
 
                 <h1 class="text-center"><strong>前台页面</strong></h1>
-                <button type="button" id="goManageBtn" class="btn btn-default btn-lg">
-                    后台<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-                </button>
+                <div>
+                    <div align="left" style="float:left">
+                        <button type="button" id="logoutBtn" class="btn btn-default btn-lg">
+                            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>退出
+                        </button>
+                    </div>
+
+                    <div align="right">
+                        <button type="button" id="goManageBtn" class="btn btn-default btn-lg">
+                            后台<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 col-sm-6">
-            <div class="text-center menuMargin">
-                <button type="button" id="OutStoreBtn" class="button button-3d button-jumbo button-pill menuItem">
-                    快速出库
-                </button>
+        {% if perms.proof.view_all_proof %}
+            <div class="col-xs-12 col-sm-6">
+                <div class="text-center menuMargin">
+                    <button type="button" id="CheckProofBtn"
+                            class="button button-3d button-caution button-pill menuItem3">
+                        查看借阅者
+                    </button>
+                </div>
             </div>
+        {% endif %}
 
-        </div>
-        <div class="col-xs-12 col-sm-6">
-            <div class="text-center menuMargin">
-                <button type="button" id="EnStoreBtn" class="button button-3d button-primary button-pill menuItem">
-                    快速入库
-                </button>
+        {% if perms.proof.change_proof %}
+            <div class="col-xs-12 col-sm-6">
+                <div class="text-center menuMargin">
+                    <button type="button" id="AddProofBtn"
+                            class="button button-3d button-action button-pill menuItem3">
+                        添加借阅者
+                    </button>
+                </div>
             </div>
+        {% endif %}
 
-        </div>
-        <div class="col-xs-12 col-sm-6">
+        {% if perms.press.change_press %}
+            <div class="col-xs-12 col-sm-6">
+                <div class="text-center menuMargin">
+                    <button type="button" id="AddPressBtn"
+                            class="button button-3d button-highlight button-pill menuItem3">
+                        添加出版社
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if perms.book.change_book %}
+            <div class="col-xs-12 col-sm-6">
+                <div class="text-center menuMargin">
+                    <button type="button" id="AddBookBtn"
+                            class="button button-3d button-royal button-pill menuItem2">
+                        添加图书
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if perms.operation.change_outstore %}
+            <div class="col-xs-12 col-sm-6">
+                <div class="text-center menuMargin">
+                    <button type="button" id="OutStoreBtn"
+                            class="button button-3d button-jumbo button-pill menuItem2">
+                        快速出库
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if perms.operation.change_enstore %}
+            <div class="col-xs-12 col-sm-6">
+                <div class="text-center menuMargin">
+                    <button type="button" id="EnStoreBtn"
+                            class="button button-3d button-primary button-pill menuItem2">
+                        快速入库
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if perms.borrow.change_borrow %}
+            <div class="col-xs-12 col-sm-6">
+                <div class="text-center menuMargin">
+                    <button type="button" id="borrowBtn"
+                            class="button button-3d button-action button-pill menuItem2">
+                        快速借书
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if perms.borrow.change_borrow %}
+            <div class="col-xs-12 col-sm-6">
+                <div class="text-center menuMargin">
+                    <button type="button" id="returnBtn"
+                            class="button button-3d button-highlight button-pill menuItem2">
+                        快速还书
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if perms.book.view_book %}
+            <div class="col-xs-12 col-sm-6">
             <div class="text-center menuMargin">
                 <button type="button" id="checkBtn"
-                        class="button button-3d button-action button-pill menuItem">检查库存
+                        class="button button-3d button-royal button-pill menuItem2">
+                    查看藏书
                 </button>
             </div>
+        {% endif %}
 
         </div>
         <div class="col-xs-12 col-sm-6">
             <div class="text-center menuMargin">
-                <button type="button" id="logoutBtn" class="button button-3d button-caution button-pill menuItem">退出系统
+                <button type="button" id="recordBtn"
+                        class="button button-3d button-caution button-pill menuItem2">
+                    借阅记录
                 </button>
             </div>
 
@@ -97,12 +195,28 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        setInterval(function(){
-                $.ajax({
-                    type: 'get',
-                    url:"/product/getWarning"
-                });
-            },100000);
+{#        setInterval(function () {#}
+{#            $.ajax({#}
+{#                type: 'get',#}
+{#                url: "/product/getWarning"#}
+{#            });#}
+{#        }, 100000);#}
+
+        $('#CheckProofBtn').click(function () {
+            window.location.href = '/proof/list/';
+        });
+
+        $('#AddProofBtn').click(function () {
+            window.location.href = '/addProof/';
+        });
+
+        $('#AddPressBtn').click(function () {
+            window.location.href = '/addPress/';
+        });
+
+        $('#AddBookBtn').click(function () {
+            window.location.href = '/manage/book/book/add/';
+        });
 
         $('#OutStoreBtn').click(function () {
             window.location.href = '/outStore/';
@@ -115,21 +229,28 @@
         $('#EnStoreBtn').click(function () {
             window.location.href = '/enStore/';
         });
+
         $('#checkBtn').click(function () {
             window.location.href = '/book/list';
-{#            $.ajax({#}
-{#                type: 'get',#}
-{#                url: '/product/list',#}
-{#                dataType: "json",#}
-{#                success: function (data) {#}
-{#                    if (data.status == 'warning') {#}
-{#                        alert(data.total+'种商品库存低于最低库存，请马上去后台处理')#}
-{#                    }else if(data.status == 'nothing'){#}
-{#                        alert('没有低于最小库存的商品')#}
-{#                    }#}
-{#                }#}
-{##}
-{#            });#}
+            {#            $.ajax({#}
+            {#                type: 'get',#}
+            {#                url: '/product/list',#}
+            {#                dataType: "json",#}
+            {#                success: function (data) {#}
+            {#                    if (data.status == 'warning') {#}
+            {#                        alert(data.total+'种商品库存低于最低库存，请马上去后台处理')#}
+            {#                    }else if(data.status == 'nothing'){#}
+            {#                        alert('没有低于最小库存的商品')#}
+            {#                    }#}
+            {#                }#}
+            {##}
+            {#            });#}
+        });
+        $('#borrowBtn').click(function () {
+            window.location.href = '/onBorrow/';
+        });
+        $('#returnBtn').click(function () {
+            window.location.href = '/onReturn/';
         });
 
         $('#logoutBtn').click(function () {
@@ -146,6 +267,10 @@
 
             });
         });
+
+        $('#recordBtn').click(function () {
+            window.location.href = 'proof/borrow/';
+        })
 
     });
 </script>

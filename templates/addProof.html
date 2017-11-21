@@ -25,6 +25,15 @@
 
         }
 
+        .radioItem {
+            width: 50%;
+            height: 70px;
+            max-width: 150px;
+            min-width: 100px;
+            font: "微软雅黑";
+            font-size: 30px;
+        }
+
         .menuMargin {
             margin-top: 20px;
             margin-bottom: 30px;
@@ -36,7 +45,27 @@
             font-size: 45px;
         }
 
+        .dateText {
+            font-size: 45px;
+            margin-right: 5%;
+            margin-bottom: 2%;
+            display: inline-block;
+            font-weight: normal;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            border: 1px solid transparent;
+            padding: 10px 16px;
+            line-height: 1.3333333;
+            border-radius: 6px;
+            color: #fff;
+            background-color: #337ab7;
+        }
 
+        .dateInputText {
+            height: 100px;
+            font-size: 45px;
+        }
     </style>
 </head>
 <body>
@@ -45,11 +74,15 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="page-header ">
-                <button type="button" id="goBackBtn" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回
-                </button>
                 <h1 class="text-center"><strong>添加借阅者</strong></h1>
-                <div style="text-align: right">
+
+                <div align="left" style="float:left">
+                    <button type="button" id="goBackBtn" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回
+                    </button>
+                </div>
+
+                <div align="right">
                     <button type="button" id="goBookManageBtn" class="btn btn-default btn-lg">
                         详细操作<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                     </button>
@@ -61,38 +94,62 @@
         <form id="addProofForm" method="post" action="">
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
+                    <input type="text" name="id_number" class="moneyInputText text-center" id="id_number"
+                           placeholder="ID号码"/>
+                </div>
+            </div>
+
+            <div class="col-xs-12 ">
+                <div class="text-center menuMargin">
                     <input type="text" name="proof" class="moneyInputText text-center" id="proof"
                            placeholder="借阅者名称"/>
                 </div>
-
             </div>
-            <div class="col-xs-12 ">
-                <div class="text-center menuMargin">
-                    <input type="text" name="address" class="moneyInputText text-center" id="address" placeholder="客户地址"/>
+
+            <div class="col-xs-12 " align="center">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary btn-lg radioItem">
+                        <input type="radio" name="sex" value="1" id="option1" checked="checked"> 男
+                    </label>
+                    <label class="btn btn-primary btn-lg radioItem">
+                        <input type="radio" name="sex" value="2" id="option2"> 女
+                    </label>
                 </div>
-
             </div>
+
             <div class="col-xs-12 ">
+
                 <div class="text-center menuMargin">
-                    <input type="text" name="id_number" class="moneyInputText text-center" id="id_number" placeholder="ID号码"/>
+                    <p class="dateText">
+                        出生日期
+                    </p>
+                    <input type="date" name="birthday" class="dateInputText text-center" id="birthday"/>
                 </div>
-
             </div>
+
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <input type="text" name="phone" class="moneyInputText text-center" id="phone" placeholder="联系电话"/>
+                    <input type="text" name="address" class="moneyInputText text-center" id="address"
+                           placeholder="客户地址"/>
                 </div>
-
             </div>
 
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <button type="button" id="addProofBtn" class="button button-3d button-primary button-pill menuItem">
+                    <input type="text" name="phone" class="moneyInputText text-center" id="phone"
+                           placeholder="联系电话"/>
+                </div>
+            </div>
+
+            <div class="col-xs-12 ">
+                <div class="text-center menuMargin">
+                    <button type="button" id="addProofBtn"
+                            class="button button-3d button-primary button-pill menuItem">
                         添加借阅者
                     </button>
                 </div>
-
             </div>
+
             {% csrf_token %}
         </form>
 
@@ -117,12 +174,14 @@
             });
         }, 100000);
 
+        $('input[type="radio"]:checked').parent('label').addClass('active');
+
         $('#goBackBtn').click(function () {
             window.location.href = '/';
         });
 
-         $('#goBookManageBtn').click(function () {
-            window.location.href = '/manage/press/press/';
+        $('#goBookManageBtn').click(function () {
+            window.location.href = '/manage/proof/proof/add/';
         });
 
         $('#addProofBtn').click(function () {
