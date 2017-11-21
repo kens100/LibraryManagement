@@ -94,7 +94,7 @@
         <tbody>
         {% for proof in all_proofs %}
             <tr id="book_{{ proof.id }}"{% if proof.now_borrow_amount > 25 %}
-                class="warning" style="color: red" {% endif %}>
+                class="warning" style="color: red" {% else %} class="info" {% endif %}>
                 <td>{{ proof.id }}</td>
                 <td>{{ proof.name }}</td>
                 <td>{% if proof.sex == 1 %}男{% else %}女{% endif %}</td>
