@@ -143,14 +143,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-
 EMAIL_HOST = "smtp.sina.com"
 EMAIL_PORT = 25
-EMAIL_HOST_USER = "qingqinglei123@sina.com"
-EMAIL_HOST_PASSWORD = "aa15360786946"
+EMAIL_HOST_USER = "XX@sina.com"
+EMAIL_HOST_PASSWORD = "XX"
 EMAIL_USE_TLS = False
-EMAIL_FROM = "qingqinglei123@sina.com"
+EMAIL_FROM = "XX@sina.com"
 
-
-
-STATIC_ROOT = 'D:/gitHubFile/LibraryManagement/extra_apps/xadmin/static'
+STATIC_ROOT = 'E:/GitHub/LibraryManagement/extra_apps/xadmin/static'
