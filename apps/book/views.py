@@ -23,9 +23,9 @@ class GetWarningView(View):
         if not request.user.is_authenticated():
             return HttpResponse('{"status":"done"}', content_type='application/json')
         books = Book.objects.all()
-        for book in books:
-            if book.min_count >= book.count:
-                pass
+        # for book in books:
+        #     if book >= book.count:
+        #         pass
                 # send_warning_email(request.user.email, book.name)
         return HttpResponse('{"status":"done"}', content_type='application/json')
 
