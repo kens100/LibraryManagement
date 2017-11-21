@@ -65,6 +65,8 @@ class BookListView(View):
         # return HttpResponse({"status": "nothing"}, content_type='application/json')
 
 
+
+#出库
 class OutStoreView(View):
     def get(self, request):
         if not request.user.is_authenticated():
@@ -102,7 +104,7 @@ class OutStoreView(View):
         outStoreRecord.save()
         return HttpResponse('{"status":"success","msg":"出库成功"}', content_type='application/json')
 
-
+#入库
 class EnStoreView(View):
     def get(self, request):
         if not request.user.is_authenticated():
@@ -141,19 +143,19 @@ class EnStoreView(View):
         enStoreRecord.save()
         return HttpResponse('{"status":"success","msg":"入库成功"}', content_type='application/json')
 
-
+#借阅
 class OnBorrowView(View):
     def get(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
-        if not request.user.has_perm('change_borrow'):
+        if not request.user.has_perm('borrow.change_borrow'):
             return render(request, "403.html")
         return render(request, "onBorrow.html")
 
     def post(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
-        if not request.user.has_perm('change_borrow'):
+        if not request.user.has_perm('borrow.change_borrow'):
             return render(request, "403.html")
 
         proof = request.POST.get("proof", "")
@@ -183,19 +185,19 @@ class OnBorrowView(View):
         onBorrowRecord.save()
         return HttpResponse('{"status":"success","msg":"借阅成功"}', content_type='application/json')
 
-
+#还书
 class OnReturnView(View):
     def get(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
-        if not request.user.has_perm('change_borrow'):
+        if not request.user.has_perm('borrow.change_borrow'):
             return render(request, "403.html")
         return render(request, "onReturn.html")
 
     def post(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
-        if not request.user.has_perm('change_borrow'):
+        if not request.user.has_perm('borrow.change_borrow'):
             return render(request, "403.html")
 
         proof = request.POST.get("proof", "")
@@ -239,7 +241,7 @@ class GetBookView(View):
     def post(self, request):
         if not request.user.is_authenticated():
             return
-        if not request.user.has_perm('change_borrow'):
+        if not request.user.has_perm('borrow.change_borrow'):
             return
 
         book_id = request.POST.get("book_id", "")
