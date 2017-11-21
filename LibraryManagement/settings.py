@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'proof',
     'borrow',
     'press',
+    'position',
     'xadmin',
     'crispy_forms',
 ]
@@ -150,4 +151,4 @@ EMAIL_HOST_PASSWORD = "XX"
 EMAIL_USE_TLS = False
 EMAIL_FROM = "XX@sina.com"
 
-STATIC_ROOT = 'E:/GitHub/LibraryManagement/extra_apps/xadmin/static'
+STATIC_ROOT = 'D:/gitHubFile/LibraryManagement/extra_apps/xadmin/static'

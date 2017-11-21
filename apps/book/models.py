@@ -5,6 +5,7 @@ from django.db import models
 from datetime import datetime
 
 from press.models import Press
+from position.models import Row
 
 # Create your models here.
 
@@ -17,6 +18,7 @@ class Book(models.Model):
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
     max_amount = models.IntegerField(default=0, verbose_name=u"总数量")
     borrow_amount = models.IntegerField(default=0,verbose_name=u"借出数量")
+    position = models.ForeignKey(Row, verbose_name=u"藏书位置")
 
 
     class Meta:
