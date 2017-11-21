@@ -13,7 +13,7 @@ class AddProofView(View):
     def get(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
-        if not request.user.has_perm('add_proof'):
+        if not request.user.has_perm('proof.add_proof'):
             return render(request, "403.html")
         return render(request, "addProof.html")
 
@@ -56,7 +56,7 @@ class ProofBorrowView(View):
     def get(self, request):
         if not request.user.is_authenticated():
             return render(request, "login.html")
-        if not request.user.has_perm('admin_borrow'):
+        if not request.user.has_perm('borrow.admin_borrow'):
             proof_id = request.user.username
         else:
             proof_id = request.GET.get('id', "")
@@ -84,7 +84,7 @@ class GetProofView(View):
     def post(self, request):
         if not request.user.is_authenticated():
             return
-        if not request.user.has_perm('change_borrow'):
+        if not request.user.has_perm('borrow.change_borrow'):
             return
 
         proof_id = request.POST.get("proof_id", "")
