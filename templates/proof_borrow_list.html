@@ -76,7 +76,7 @@
         <tbody>
         {% for borrow in proof_borrows %}
             <tr id="borrow_{{ borrow.id }}"{% if borrow.return_time == none %}
-                class="warning" style="color: red" {% endif %}>
+                class="warning" style="color: red" {% else %} class="info" {% endif %}>
                 <td>{{ borrow.book.id }}</td>
                 <td>{{ borrow.book }}</td>
                 <td>{{ borrow.book.press }}</td>

@@ -79,7 +79,7 @@
         <button type="button" class="{% ifequal sort 'add_time' %}btn btn-success
 {% else %}btn btn-default{% endifequal %}" onclick=sortBtn(6)>添加时间&#8595;</button>
     </div>
-    <table class="table table-hover" id="book_list_table">
+    <table class="table table-hover table-striped" id="book_list_table">
         <thead>
         <tr>
             <th>书籍ID</th>
@@ -89,13 +89,14 @@
             <th>书籍单价</th>
             <th>总数量</th>
             <th>现存量</th>
+            <th>藏书位置</th>
             <th>添加时间</th>
         </tr>
         </thead>
         <tbody>
         {% for book in all_books %}
             <tr id="book_{{ book.id }}"{% if book.max_amount == book.borrow_amount %}
-                class="warning" style="color: red" {% endif %}>
+                class="warning" style="color: red" {% else %} class="info" {% endif %}>
                 <td>{{ book.id }}</td>
                 <td>{{ book.name }}</td>
                 <td>{{ book.writer }}</td>
@@ -103,6 +104,7 @@
                 <td>{{ book.price }}</td>
                 <td>{{ book.max_amount }}</td>
                 <td>{{ book.borrow_amount }}</td>
+                <td>{{ book.position }}</td>
                 <td>{{ book.add_time }}</td>
             </tr>
         {% endfor %}
