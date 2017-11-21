@@ -56,7 +56,7 @@
 							<div class="form-group">
 								<div class="col-lg-9 col-lg-offset-2">
 									<button type="submit" class="btn btn-primary loginBtn">登录</button>
-									<button type="button" id="forgetPasswordBtn" class="btn btn-danger forgetBtn">忘记密码</button>
+{#									<button type="button" id="forgetPasswordBtn" class="btn btn-danger forgetBtn">忘记密码</button>#}
 								</div>
 							</div>
                         {% csrf_token %}
@@ -82,9 +82,9 @@
 				 * 下面是进行插件初始化
 				 * 你只需传入相应的键值对
 				 * */
-				$('#forgetPasswordBtn').click(function(){
-					window.location.href = '/forget';
-				});
+{#				$('#forgetPasswordBtn').click(function(){#}
+{#					window.location.href = '/forget';#}
+{#				});#}
 
 				$('#defaultForm').bootstrapValidator({
 					message: 'This value is not valid',

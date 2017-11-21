@@ -45,12 +45,16 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="page-header ">
-                <button type="button" id="goBackBtn" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回
-                </button>
                 <h1 class="text-center"><strong>还书页面</strong></h1>
-                <div style="text-align: right">
-                    <button type="button" id="goProductManageBtn" class="btn btn-default btn-lg">
+
+                <div align="left" style="float:left">
+                    <button type="button" id="goBackBtn" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回
+                    </button>
+                </div>
+
+                <div align="right">
+                    <button type="button" id="goBookManageBtn" class="btn btn-default btn-lg">
                         详细操作<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -58,30 +62,46 @@
         </div>
     </div>
     <div class="row">
-        <form id="enStoreForm" method="post" action="">
+        <form action="" method="post" id="returnForm">
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <input type="text" name="proof" class="moneyInputText text-center" id="proof" placeholder="借阅者"/>
+                    <input type="text" name="proof_id" class="moneyInputText text-center" id="proof_id"
+                           placeholder="借书卡ID"/>
                 </div>
 
             </div>
+            <div class="col-xs-12 ">
+                <div class="text-center menuMargin">
+                    <input type="text" name="proof" class="moneyInputText text-center" id="proof"
+                           placeholder="无对应借阅者" readonly="readonly"/>
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 ">
+                <div class="text-center menuMargin">
+                    <input type="text" name="book_id" class="moneyInputText text-center" id="book_id"
+                           placeholder="书籍ID"/>
+                </div>
+            </div>
+
+            <div class="col-xs-12 ">
+                <div class="text-center menuMargin">
+                    <input type="text" name="book" class="moneyInputText text-center" id="book"
+                           placeholder="无对应书籍" readonly="readonly"/>
+                </div>
+            </div>
+
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
                     <input type="text" name="press" class="moneyInputText text-center" id="press"
-                           placeholder="出版社"/>
+                           placeholder="无对应出版社" readonly="readonly"/>
                 </div>
-
-            </div>
-            <div class="col-xs-12 ">
-                <div class="text-center menuMargin">
-                    <input type="text" name="book" class="moneyInputText text-center" id="book" placeholder="书籍"/>
-                </div>
-
             </div>
 
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <button type="button" id="enStoreBtn" class="button button-3d button-primary button-pill menuItem">
+                    <button type="button" id="onBorrowBtn" class="button button-3d button-primary button-pill menuItem">
                         还书
                     </button>
                 </div>
@@ -104,27 +124,53 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        setInterval(function () {
-            $.ajax({
-                type: 'get',
-                url: "/product/getWarning"
-            });
-        }, 100000);
+{#        setInterval(function () {#}
+{#            $.ajax({#}
+{#                type: 'get',#}
+{#                url: "/product/getWarning"#}
+{#            });#}
+{#        }, 100000);#}
+
 
         $('#goBackBtn').click(function () {
             window.location.href = '/';
         });
 
-        $('#goProductManageBtn').click(function () {
-            window.location.href = '/manage/product/product/';
+        $('#goBookManageBtn').click(function () {
+            window.location.href = '/manage/borrow/borrow/';
         });
 
-        $('#enStoreBtn').click(function () {
+        $('#proof_id').change(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/getProof/',
+                data: $('#returnForm').serialize(),
+
+                success: function (data) {
+                    $('#proof').val(data.proof_name)
+                }
+            })
+        })
+
+        $('#book_id').change(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/getBook/',
+                data: $('#returnForm').serialize(),
+
+                success: function (data) {
+                    $('#book').val(data.book_name)
+                    $('#press').val(data.book_press)
+                }
+            })
+        })
+
+        $('#onBorrowBtn').click(function () {
 
             $.ajax({
                 type: 'POST',
                 url: '/onReturn/',
-                data: $('#enStoreForm').serialize(),
+                data: $('#returnForm').serialize(),
                 async: true,
 
                 success: function (data) {

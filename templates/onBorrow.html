@@ -45,11 +45,15 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="page-header ">
-                <button type="button" id="goBackBtn" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回
-                </button>
                 <h1 class="text-center"><strong>借书页面</strong></h1>
-                <div style="text-align: right">
+
+                <div align="left" style="float:left">
+                    <button type="button" id="goBackBtn" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回
+                    </button>
+                </div>
+
+                <div align="right">
                     <button type="button" id="goBookManageBtn" class="btn btn-default btn-lg">
                         详细操作<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                     </button>
@@ -58,37 +62,41 @@
         </div>
     </div>
     <div class="row">
-        <form action="" method="post" id="outForm">
+        <form action="" method="post" id="borrowForm">
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <input type="text" name="proof_id" class="moneyInputText text-center" id="proof_id" placeholder="借书卡ID"/>
+                    <input type="text" name="proof_id" class="moneyInputText text-center" id="proof_id"
+                           placeholder="借书卡ID"/>
                 </div>
 
             </div>
 
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <input type="text" name="proof" class="moneyInputText text-center" id="proof" placeholder="借阅者"/>
+                    <input type="text" name="proof" class="moneyInputText text-center" id="proof"
+                           placeholder="无对应借阅者" readonly="readonly"/>
                 </div>
 
             </div>
 
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <input type="text" name="book_id" class="moneyInputText text-center" id="book_id" placeholder="书籍ID"/>
+                    <input type="text" name="book_id" class="moneyInputText text-center" id="book_id"
+                           placeholder="书籍ID"/>
                 </div>
             </div>
 
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
-                    <input type="text" name="book" class="moneyInputText text-center" id="book" placeholder="书籍"/>
+                    <input type="text" name="book" class="moneyInputText text-center" id="book"
+                           placeholder="无对应书籍" readonly="readonly"/>
                 </div>
             </div>
 
             <div class="col-xs-12 ">
                 <div class="text-center menuMargin">
                     <input type="text" name="press" class="moneyInputText text-center" id="press"
-                           placeholder="出版社"/>
+                           placeholder="无对应出版社" readonly="readonly"/>
                 </div>
             </div>
 
@@ -117,12 +125,12 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        setInterval(function () {
-            $.ajax({
-                type: 'get',
-                url: "/product/getWarning"
-            });
-        }, 100000);
+{#        setInterval(function () {#}
+{#            $.ajax({#}
+{#                type: 'get',#}
+{#                url: "/product/getWarning"#}
+{#            });#}
+{#        }, 100000);#}
 
 
         $('#goBackBtn').click(function () {
@@ -136,13 +144,24 @@
         $('#proof_id').change(function () {
             $.ajax({
                 type: 'POST',
-                url: '/onBorrow/',
-                data:  {proof_id: this.value},
+                url: '/getProof/',
+                data: $('#borrowForm').serialize(),
 
                 success: function (data) {
-                    if (data.proof != null){
-                        $('#proof').setVal(data.proof)
-                    }
+                    $('#proof').val(data.proof_name)
+                }
+            })
+        })
+
+        $('#book_id').change(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/getBook/',
+                data: $('#borrowForm').serialize(),
+
+                success: function (data) {
+                    $('#book').val(data.book_name)
+                    $('#press').val(data.book_press)
                 }
             })
         })
@@ -152,7 +171,7 @@
             $.ajax({
                 type: 'POST',
                 url: '/onBorrow/',
-                data: $('#outForm').serialize(),
+                data: $('#borrowForm').serialize(),
                 async: true,
 
                 success: function (data) {
