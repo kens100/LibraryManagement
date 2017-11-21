@@ -20,6 +20,9 @@ class Proof(models.Model):
     class Meta:
         verbose_name = u"借阅者"
         verbose_name_plural = verbose_name
+        permissions = (
+            ('view_all_proof', u'查看所有借阅者'),
+        )
 
     def __unicode__(self):
         return self.name
