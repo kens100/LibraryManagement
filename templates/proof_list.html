@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="sipei">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-button.css' %}"/>
+    <title>借阅者列表</title>
+    --
+    <style type="text/css">
+        body {
+            background: url({% static 'img/background.jpg'%}) no-repeat;
+
+        }
+
+        .menuItem {
+            width: 100%;
+            height: 70px;
+            max-width: 400px;
+            font: "微软雅黑";
+            font-size: 40px;
+
+        }
+
+        .menuMargin {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .moneyInputText {
+            width: 55%;
+            height: 100px;
+            font-size: 45px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header ">
+                <h1 class="text-center"><strong>借阅列表</strong></h1>
+
+                <div align="left" style="float:left">
+                    <button type="button" id="goBackBtn" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回
+                    </button>
+                </div>
+
+                <div align="right">
+                    <button type="button" id="goBookManageBtn" class="btn btn-default btn-lg">
+                        详细操作<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button type="button" class="{% ifequal sort '' %}btn btn-success
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(0)>常规
+        </button>
+        <button type="button" class="{% ifequal sort 'name' %}btn btn-success
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(1)>姓名&#8595;</button>
+        <button type="button" class="{% ifequal sort 'sex' %}btn btn-success
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(2)>性别&#8595;</button>
+        <button type="button" class="{% ifequal sort 'address' %}btn btn-success
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(3)>地址&#8595;</button>
+        <button type="button" class="{% ifequal sort 'phone' %}btn btn-success
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(4)>电话&#8595;</button>
+        <button type="button" class="{% ifequal sort 'now_borrow_amount' %}btn btn-success
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(5)>借书量&#8595;</button>
+        <button type="button" class="{% ifequal sort 'add_time' %}btn btn-success
+{% else %}btn btn-default{% endifequal %}" onclick=sortBtn(6)>添加时间&#8595;</button>
+    </div>
+    <table class="table table-hover" id="book_list_table">
+        <thead>
+        <tr>
+            <th>借书卡ID</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>地址</th>
+            <th>电话</th>
+            <th>借书量</th>
+            <th>添加时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for proof in all_proofs %}
+            <tr id="book_{{ proof.id }}"{% if proof.now_borrow_amount > 25 %}
+                class="warning" style="color: red" {% endif %}>
+                <td>{{ proof.id }}</td>
+                <td>{{ proof.name }}</td>
+                <td>{% if proof.sex == 1 %}男{% else %}女{% endif %}</td>
+                <td>{{ proof.address }}</td>
+                <td>{{ proof.phone }}</td>
+                <td>{{ proof.now_borrow_amount }}</td>
+                <td>{{ proof.add_time }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript" src="{% static 'js/jquery-3.2.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        {#        setInterval(function () {#}
+        {#            $.ajax({#}
+        {#                type: 'get',#}
+        {#                url: "/book/getWarning"#}
+        {#            });#}
+        {#        }, 100000);#}
+        {##}
+        {#        {% ifequal total 0 %}#}
+        {#        {% else %}#}
+        {#            {% if not sort %}#}
+        {#                window.alert("有{{ total }}件货物库存不足，请及时补充");#}
+        {#            {% endif %}#}
+        {#        {% endifequal %}#}
+
+        $('#goBackBtn').click(function () {
+            window.location.href = '/';
+        });
+
+        $('#goBookManageBtn').click(function () {
+            window.location.href = '/manage/proof/proof/';
+        });
+
+    });
+
+    function sortBtn(k) {
+        switch (k) {
+            case 0:
+                window.location.href = "?sort=";
+                break;
+            case 1:
+                window.location.href = "?sort=name";
+                break;
+            case 2:
+                window.location.href = "?sort=sex";
+                break;
+            case 3:
+                window.location.href = "?sort=address";
+                break;
+            case 4:
+                window.location.href = "?sort=phone";
+                break;
+            case 5:
+                window.location.href = "?sort=now_borrow_amount";
+                break;
+            case 6:
+                window.location.href = "?sort=add_time";
+                break;
+            default:
+                break;
+        }
+    }
+</script>
+</body>
+</html>
