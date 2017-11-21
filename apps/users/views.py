@@ -7,10 +7,10 @@ from datetime import datetime
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from .models import UserProfile,EmailVerifyRecord
+from .models import UserProfile
 from django.views.generic.base import View
 from .forms import LoginForm
-from utils.email_send import send_forget_email
+# from utils.email_send import send_forget_email
 
 
 # Create your views here.
@@ -57,36 +57,36 @@ class IndexView(View):
         return render(request, "actionMenu.html")
 
 
-class ForgetPassWordView(View):
-    def get(self, request):
-        return render(request, 'resetPassword.html')
-
-    def post(self, request):
-        pwd = request.POST.get("password","")
-        pwd1 = request.POST.get("password1","")
-        email = request.POST.get("email","")
-        verify_code = request.POST.get("verifyCode","")
-        if pwd != pwd1:
-            return HttpResponse('{"status":0}', content_type='application/json')
-        verify_code_record = EmailVerifyRecord.objects.filter(email=email,code=verify_code)[0]
-        if verify_code_record:
-            dt = datetime.now()
-            if verify_code_record.end_time > dt:
-                user = UserProfile.objects.get(email=email)
-                user.password = make_password(pwd)
-                user.save()
-                return HttpResponse('{"status":1,"msg":"修改密码成功"}', content_type='application/json')
-            else:
-                return HttpResponse('{"status":2,"msg":"验证码过期，修改密码失败"}', content_type='application/json')
-        else:
-            return HttpResponse('{"status":3,"msg":"验证码或邮箱不正确"}', content_type='application/json')
-
-
-
-
-class SendEmailCodeView(View):
-    def get(self, request):
-        email = request.GET.get('email', '')
+# class ForgetPassWordView(View):
+#     def get(self, request):
+#         return render(request, 'resetPassword.html')
+#
+#     def post(self, request):
+#         pwd = request.POST.get("password","")
+#         pwd1 = request.POST.get("password1","")
+#         email = request.POST.get("email","")
+#         verify_code = request.POST.get("verifyCode","")
+#         if pwd != pwd1:
+#             return HttpResponse('{"status":0}', content_type='application/json')
+#         verify_code_record = EmailVerifyRecord.objects.filter(email=email,code=verify_code)[0]
+#         if verify_code_record:
+#             dt = datetime.now()
+#             if verify_code_record.end_time > dt:
+#                 user = UserProfile.objects.get(email=email)
+#                 user.password = make_password(pwd)
+#                 user.save()
+#                 return HttpResponse('{"status":1,"msg":"修改密码成功"}', content_type='application/json')
+#             else:
+#                 return HttpResponse('{"status":2,"msg":"验证码过期，修改密码失败"}', content_type='application/json')
+#         else:
+#             return HttpResponse('{"status":3,"msg":"验证码或邮箱不正确"}', content_type='application/json')
+#
+#
+#
+#
+# class SendEmailCodeView(View):
+#     def get(self, request):
+#         email = request.GET.get('email', '')
 
         if not UserProfile.objects.filter(email=email):
             return HttpResponse('{"email":"邮箱未绑定用户"}', content_type='application/json')

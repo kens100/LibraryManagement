@@ -14,7 +14,6 @@ from datetime import datetime
 from .models import Book, Press
 from operation.models import EnStore, OutStore
 from users.models import UserProfile
-from utils.email_send import send_warning_email
 from borrow.models import Borrow
 from proof.models import Proof
 
@@ -26,7 +25,8 @@ class GetWarningView(View):
         books = Book.objects.all()
         for book in books:
             if book.min_count >= book.count:
-                send_warning_email(request.user.email, book.name)
+                pass
+                # send_warning_email(request.user.email, book.name)
         return HttpResponse('{"status":"done"}', content_type='application/json')
 
 

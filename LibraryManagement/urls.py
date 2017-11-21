@@ -19,7 +19,7 @@ from django.views.static import serve
 from LibraryManagement.settings import STATIC_ROOT
 import xadmin
 
-from users.views import LoginView,IndexView,LogoutView,ForgetPassWordView,SendEmailCodeView
+from users.views import LoginView,IndexView,LogoutView
 from book.views import OutStoreView,EnStoreView, OnBorrowView, OnReturnView, GetBookView
 from press.views import AddPressView
 from proof.views import AddProofView, GetProofView
@@ -29,8 +29,8 @@ urlpatterns = [
     url(r'^manage/', xadmin.site.urls, name='manage'),
     url('^login/$', LoginView.as_view(), name='login'),
     url('^logout/$', LogoutView.as_view(), name='logout'),
-    url('^forget/$', ForgetPassWordView.as_view(), name='forget'),
-    url('^getEmail/$', SendEmailCodeView.as_view(), name='getEmail'),
+    # url('^forget/$', ForgetPassWordView.as_view(), name='forget'),
+    # url('^getEmail/$', SendEmailCodeView.as_view(), name='getEmail'),
     url('^outStore/$', OutStoreView.as_view(), name='outStore'),
     url('^enStore/$', EnStoreView.as_view(), name='enStore'),
     url('^onBorrow/$', OnBorrowView.as_view(), name='onBorrow'),
